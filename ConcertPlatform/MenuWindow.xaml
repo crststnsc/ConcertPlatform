@@ -1,0 +1,57 @@
+﻿<Window x:Class="ConcertPlatform.MenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConcertPlatform"
+        mc:Ignorable="d"
+        Title="MenuWindow" Height="520" Width="800">
+    <Grid>
+        <TextBlock Text="Choose a concert:" Margin="10" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <DataGrid x:Name="concertsDataGrid" Margin="20,40,20,100" IsReadOnly="True">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="#4EA6F7" />
+                    <Setter Property="Foreground" Value="White" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Foreground" Value="White" />
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        <Button Margin="70,20" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="60" Width="275" Click="BuyTicket_Click"
+                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="buy_ticket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="Buy ticket"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="buy_ticket_button" Property="Background" Value="#4EA6F7"/>
+                            <Setter TargetName="buy_ticket_button" Property="BorderBrush" Value="#4EA6F7"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button HorizontalAlignment="Right" Margin="70,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewBasket_Click"
+                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="View basket"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="view_basket_button" Property="Background" Value="#4EA6F7"/>
+                            <Setter TargetName="view_basket_button" Property="BorderBrush" Value="#4EA6F7"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
