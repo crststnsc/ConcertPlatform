@@ -1,4 +1,5 @@
 ﻿using ConcertPlatform.Models.DataAccessLayer;
+using ConcertPlatform.Models.EntityLayer;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,15 @@ namespace ConcertPlatform
             if (reader.HasRows)
             {
                 reader.Read();
-                MenuWindow menuWindow = new(reader.GetInt32(0));
+                User user = new()
+                {
+                    UserId = reader.GetInt32(0),
+                    Username = reader.GetString(1),
+                    Password = reader.GetString(2),
+                    Isadmin = reader.GetBoolean(3)
+                };
+                
+                MenuWindow menuWindow = new(user);
                 menuWindow.Show();
                 Close();
             }

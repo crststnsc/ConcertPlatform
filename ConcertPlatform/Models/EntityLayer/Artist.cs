@@ -16,4 +16,12 @@ public partial class Artist
     public string? ContactInformation { get; set; }
 
     public virtual ICollection<Concert> Concerts { get; set; } = new List<Concert>();
+
+    public override string ToString()
+    {
+        return $"Name: {ArtistName}\n" +
+               $"Genre: {Genre}\n" +
+               $"Bio: {Bio}\n" +
+               $"Contact: {ContactInformation}";
+    }
 }

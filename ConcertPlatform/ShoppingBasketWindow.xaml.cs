@@ -40,7 +40,7 @@ namespace ConcertPlatform
             using var connection = DALHelper.Connection;
             connection.Open();
 
-            string query = "SELECT t.ticket_id, c.concert_id, c.date, c.time, c.ticket_price, a.artist_name " +
+            string query = "SELECT t.ticket_id, t.ticket_holder_name, t.seat_number, c.concert_id, c.date, c.time, c.ticket_price, a.artist_name " +
                            "FROM Tickets t " +
                            "INNER JOIN Concerts c ON t.concert_id = c.concert_id " +
                            "LEFT JOIN Artists a ON c.artist_id = a.artist_id " +
@@ -58,10 +58,10 @@ namespace ConcertPlatform
             ObservableCollection<BasketItem> basketItems = new ObservableCollection<BasketItem>();
             foreach (DataRow row in dataTable.Rows)
             {
-                Debug.WriteLine("This is basket:" + row["concert_id"]);
-
                 BasketItem basketItem = new BasketItem {
                     TicketId = Convert.ToInt32(row["ticket_id"]),
+                    TicketHolderName = row["ticket_holder_name"].ToString(),
+                    SeatNumber = Convert.ToInt32(row["seat_number"]),
                     ConcertId = Convert.ToInt32(row["concert_id"]),
                     Date = Convert.ToDateTime(row["date"]),
                     Time = TimeSpan.Parse(row["time"].ToString()),
@@ -116,19 +116,12 @@ namespace ConcertPlatform
             LoadBasket(user_id);
         }
 
-        private void RemoveAll_Click(object sender, RoutedEventArgs e)
+        private void EditName_Button(object sender, RoutedEventArgs e)
         {
-            using var connection = DALHelper.Connection;
-            connection.Open();
+            BasketItem basketItem = (BasketItem)basketListBox.SelectedItem;
 
-            string query = "DELETE FROM Basket WHERE user_id = @UserId";
-
-            NpgsqlCommand cmd = new(query, connection);
-            cmd.Parameters.AddWithValue("UserId", user_id);
-
-            cmd.ExecuteNonQuery();
-
-            LoadBasket(user_id);
+            NameSeatWindow nameSeatWindow = new (basketItem.TicketId);
+            nameSeatWindow.Show();
         }
     }
 }

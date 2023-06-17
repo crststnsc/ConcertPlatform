@@ -16,4 +16,12 @@ public partial class Venue
     public string? ContactInformation { get; set; }
 
     public virtual ICollection<Concert> Concerts { get; set; } = new List<Concert>();
+
+    public override string ToString()
+    {
+        return $"Name: {VenueName}\n" +
+               $"Location: {Location}\n" +
+               $"Capacity: {Capacity}\n" +
+               $"Contact: {ContactInformation}";
+    }
 }

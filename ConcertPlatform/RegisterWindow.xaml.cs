@@ -28,7 +28,6 @@ namespace ConcertPlatform
         }
 
         private void register_btn_Click(object sender, RoutedEventArgs e){
-            //query to check if the username is already taken
             NpgsqlConnection conn = DALHelper.Connection;
             conn.Open();
 

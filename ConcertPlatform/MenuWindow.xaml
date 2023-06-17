@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConcertPlatform"
         mc:Ignorable="d"
-        Title="MenuWindow" Height="520" Width="800">
+        Title="MenuWindow" Height="520" Width="1100">
     <Grid>
         <TextBlock Text="Choose a concert:" Margin="10" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <DataGrid x:Name="concertsDataGrid" Margin="20,40,20,100" IsReadOnly="True">
@@ -26,7 +26,7 @@
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="buy_ticket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="Buy ticket"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="Add to basket"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -43,6 +43,23 @@
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="View basket"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="view_basket_button" Property="Background" Value="#4EA6F7"/>
+                            <Setter TargetName="view_basket_button" Property="BorderBrush" Value="#4EA6F7"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Button HorizontalAlignment="Center" Margin="70,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewArtist_Click"
+                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="View artist/venue"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

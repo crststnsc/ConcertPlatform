@@ -9,6 +9,8 @@ namespace ConcertPlatform.Models.EntityLayer
     public class BasketItem
     {
         public int TicketId { get; set; }
+        public string TicketHolderName { get; set; }
+        public int SeatNumber { get; set; }
         public int ConcertId { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
@@ -18,7 +20,8 @@ namespace ConcertPlatform.Models.EntityLayer
         //override to string
         public override string ToString()
         {
-            return $"{Date.ToShortDateString()}, {Time}, {ArtistName}, {TicketPrice}";
+            return $"Date: {Date.ToShortDateString()}, Time: {Time}, Artist: {ArtistName}, Price: {TicketPrice}, " +
+                $"Ticket holder name: {TicketHolderName}, Seat number: {SeatNumber}";
         }
     }
 }

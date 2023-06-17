@@ -26,14 +26,14 @@ namespace ConcertPlatform
     public partial class MenuWindow : Window
     {
       
-        int user_id;
+        User user;
 
-        public MenuWindow(int user_id)
+        public MenuWindow(User user)
         {
             InitializeComponent();
             DataContext = this;
             LoadConcerts();
-            this.user_id = user_id;
+            this.user = user;
         }
 
         private void LoadConcerts()
@@ -51,7 +51,7 @@ namespace ConcertPlatform
                 NpgsqlCommand cmd = new(query, connection);
 
                 NpgsqlDataAdapter adapter = new(cmd);
-                DataTable dataTable = new DataTable();
+                DataTable dataTable = new();
                 adapter.Fill(dataTable);
                 concertsDataGrid.ItemsSource = dataTable.DefaultView;
             }
@@ -85,29 +85,30 @@ namespace ConcertPlatform
 
                     // Retrieve the capacity of the venue
                     string getVenueCapacityQuery = "SELECT capacity FROM Venues WHERE venue_id = @VenueId";
-                    using (var getVenueCapacityCommand = new NpgsqlCommand(getVenueCapacityQuery, connection))
+                    var getVenueCapacityCommand = new NpgsqlCommand(getVenueCapacityQuery, connection);
+                    getVenueCapacityCommand.Parameters.AddWithValue("VenueId", concert.VenueId);
+                    int venueCapacity = (int)getVenueCapacityCommand.ExecuteScalar();
+
+                    // Check if the seat number exceeds the venue capacity
+                    if (nextSeatNumber > venueCapacity)
                     {
-                        getVenueCapacityCommand.Parameters.AddWithValue("VenueId", concert.VenueId);
-                        int venueCapacity = (int)getVenueCapacityCommand.ExecuteScalar();
-
-                        // Check if the seat number exceeds the venue capacity
-                        if (nextSeatNumber > venueCapacity)
-                        {
-                            MessageBox.Show("Seat number exceeds venue capacity.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return -1;
-                        }
-
-                        // Insert the new ticket row
-                        string insertTicketQuery = 
-                            "INSERT INTO Tickets (concert_id, seat_number) VALUES (@ConcertId, @SeatNumber) RETURNING ticket_id";
-                        using (var insertTicketCommand = new NpgsqlCommand(insertTicketQuery, connection))
-                        {
-                            insertTicketCommand.Parameters.AddWithValue("ConcertId", concert.ConcertId);
-                            insertTicketCommand.Parameters.AddWithValue("SeatNumber", nextSeatNumber);
-                            
-                            ticketId = insertTicketCommand.ExecuteScalar() as int? ?? -1;
-                        }
+                        MessageBox.Show("Seat number exceeds venue capacity.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return -1;
                     }
+
+                    // Insert the new ticket row
+                    string insertTicketQuery =
+                        "INSERT INTO Tickets (concert_id, seat_number, ticket_holder_name, purchase_date, status)" +
+                        "VALUES (@ConcertId, @SeatNumber, @TicketHolder, @PurchaseDate, @Status)" +
+                        "RETURNING ticket_id";
+                    var insertTicketCommand = new NpgsqlCommand(insertTicketQuery, connection);
+                    insertTicketCommand.Parameters.AddWithValue("ConcertId", concert.ConcertId);
+                    insertTicketCommand.Parameters.AddWithValue("SeatNumber", nextSeatNumber);
+                    insertTicketCommand.Parameters.AddWithValue("TicketHolder", user.Username);
+                    insertTicketCommand.Parameters.AddWithValue("PurchaseDate", DateOnly.FromDateTime(DateTime.Now));
+                    insertTicketCommand.Parameters.AddWithValue("Status", "pending");
+
+                    ticketId = insertTicketCommand.ExecuteScalar() as int? ?? -1;
                 }
             }   
 
@@ -147,16 +148,33 @@ namespace ConcertPlatform
             string query = "INSERT INTO Basket (user_id, ticket_id) VALUES (@user_id, @ticket_id)";
 
             var cmd = new NpgsqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("user_id", user_id);
+            cmd.Parameters.AddWithValue("user_id", user.UserId);
             cmd.Parameters.AddWithValue("ticket_id", ticket_id);
             cmd.ExecuteNonQuery();           
         }
 
         private void ViewBasket_Click(object sender, RoutedEventArgs e)
         {
-            ShoppingBasketWindow shoppingBasketWindow = new(user_id);
+            ShoppingBasketWindow shoppingBasketWindow = new(user.UserId);
             shoppingBasketWindow.Show();
         }   
+
+        private void ViewArtist_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedRow = concertsDataGrid.SelectedItem as DataRowView;
+
+            if(selectedRow == null)
+            {
+                MessageBox.Show("Please select a concert first!");
+                return;
+            }
+
+            int artistId = (int)selectedRow["artist_id"];
+            int venueId = (int)selectedRow["venue_id"];
+
+            ArtistVenueWindow artistVenueWindow = new(artistId, venueId);
+            artistVenueWindow.Show();
+        }
     }
 }
 
