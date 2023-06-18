@@ -6,7 +6,17 @@
         xmlns:local="clr-namespace:ConcertPlatform"
         mc:Ignorable="d"
         Title="AdminWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20">
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="Artists" Click="ArtistsButton_Click" Margin="10" Width="120" Height="40"/>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="Venues" Click="VenuesButton_Click" Margin="10" Width="120" Height="40"/>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="Concerts" Click="ConcertsButton_Click" Margin="10" Width="120" Height="40"/>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="Tickets" Click="TicketsButton_Click" Margin="10" Width="120" Height="40"/>
+    </StackPanel>
 </Window>

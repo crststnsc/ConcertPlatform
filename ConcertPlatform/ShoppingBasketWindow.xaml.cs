@@ -55,7 +55,7 @@ namespace ConcertPlatform
             DataTable dataTable = new();
             adapter.Fill(dataTable);
 
-            ObservableCollection<BasketItem> basketItems = new ObservableCollection<BasketItem>();
+            ObservableCollection<BasketItem> basketItems = new();
             foreach (DataRow row in dataTable.Rows)
             {
                 BasketItem basketItem = new BasketItem {
@@ -72,23 +72,6 @@ namespace ConcertPlatform
             }
 
             basketListBox.ItemsSource = basketItems;
-        }
-
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            BasketItem basketItem = (BasketItem)basketListBox.SelectedItem;
-            using var connection = DALHelper.Connection;
-            connection.Open();
-
-            string query = "DELETE FROM Basket WHERE ticket_id = @TicketId AND user_id = @UserId";
-
-            NpgsqlCommand cmd = new(query, connection);
-            cmd.Parameters.AddWithValue("TicketId", basketItem.TicketId);
-            cmd.Parameters.AddWithValue("UserId", user_id);
-
-            cmd.ExecuteNonQuery();
-
-            LoadBasket(user_id);
         }
 
         private void BuyButton_Click(object sender, RoutedEventArgs e)
@@ -115,7 +98,24 @@ namespace ConcertPlatform
 
             LoadBasket(user_id);
         }
+        
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            BasketItem basketItem = (BasketItem)basketListBox.SelectedItem;
+            using var connection = DALHelper.Connection;
+            connection.Open();
 
+            string query = "DELETE FROM Basket WHERE ticket_id = @TicketId AND user_id = @UserId";
+
+            NpgsqlCommand cmd = new(query, connection);
+            cmd.Parameters.AddWithValue("TicketId", basketItem.TicketId);
+            cmd.Parameters.AddWithValue("UserId", user_id);
+
+            cmd.ExecuteNonQuery();
+
+            LoadBasket(user_id);
+        }
+        
         private void EditName_Button(object sender, RoutedEventArgs e)
         {
             BasketItem basketItem = (BasketItem)basketListBox.SelectedItem;
@@ -123,5 +123,7 @@ namespace ConcertPlatform
             NameSeatWindow nameSeatWindow = new (basketItem);
             nameSeatWindow.Show();
         }
+
+
     }
 }

@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:ConcertPlatform"
         mc:Ignorable="d"
         Title="MenuWindow" Height="520" Width="1100">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <TextBlock Text="Choose a concert:" Margin="10" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <DataGrid x:Name="concertsDataGrid" Margin="20,40,20,100" IsReadOnly="True">
@@ -21,71 +28,11 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <Button Margin="20,20" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="60" Width="275" Click="BuyTicket_Click"
-                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="buy_ticket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="Add to basket"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="buy_ticket_button" Property="Background" Value="#4EA6F7"/>
-                            <Setter TargetName="buy_ticket_button" Property="BorderBrush" Value="#4EA6F7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Button HorizontalAlignment="Right" Margin="200,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewBasket_Click"
-                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="View basket"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="view_basket_button" Property="Background" Value="#4EA6F7"/>
-                            <Setter TargetName="view_basket_button" Property="BorderBrush" Value="#4EA6F7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="Add to basket" Margin="20,20" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="60" Width="275" Click="BuyTicket_Click"/>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="View basket" HorizontalAlignment="Right" Margin="200,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewBasket_Click"/>
 
-        <Button HorizontalAlignment="Left" Margin="320,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewArtist_Click"
-                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="View artist/venue"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="view_basket_button" Property="Background" Value="#4EA6F7"/>
-                            <Setter TargetName="view_basket_button" Property="BorderBrush" Value="#4EA6F7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="View artist/venue" HorizontalAlignment="Left" Margin="320,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewArtist_Click"/>
 
-        <Button HorizontalAlignment="Right" Margin="20,20" VerticalAlignment="Bottom" Height="60" Width="150" Click="AccountSettings_Click"
-                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account settings"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="view_basket_button" Property="Background" Value="#4EA6F7"/>
-                            <Setter TargetName="view_basket_button" Property="BorderBrush" Value="#4EA6F7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="Account settings" HorizontalAlignment="Right" Margin="20,20" VerticalAlignment="Bottom" Height="60" Width="150" Click="AccountSettings_Click"/>
     </Grid>
 </Window>

@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:ConcertPlatform"
         mc:Ignorable="d"
         Title="NameSeatWindow" Height="220" Width="320">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
@@ -23,22 +30,7 @@
         <TextBox x:Name="name" Grid.Row="0" Grid.Column="1" Height="20" Width="150"/>
         <TextBox x:Name="seat" Grid.Row="1" Grid.Column="1" Height="20" Width="150" PreviewTextInput="NumberValidationTextBox"/>
 
-        <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" VerticalAlignment="center" Height="60" Width="150" Click="UpdateTicket_Click"
-                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="Update"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="view_basket_button" Property="Background" Value="#4EA6F7"/>
-                            <Setter TargetName="view_basket_button" Property="BorderBrush" Value="#4EA6F7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button Style="{StaticResource UpdateButtonStyle}" Content="Update" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Height="60" Width="150" Click="UpdateTicket_Click" />
 
     </Grid>
 </Window>

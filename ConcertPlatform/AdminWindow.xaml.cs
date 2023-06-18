@@ -23,5 +23,25 @@ namespace ConcertPlatform
         {
             InitializeComponent();
         }
+
+        private void ArtistsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void VenuesButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ConcertsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TicketsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
