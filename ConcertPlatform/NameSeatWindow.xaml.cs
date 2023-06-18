@@ -13,12 +13,14 @@ namespace ConcertPlatform
     /// </summary>
     public partial class NameSeatWindow : Window
     {
-        int ticket_id;
+        public BasketItem BasketItem { get; set; }
 
-        public NameSeatWindow(int ticket_id)
+        public NameSeatWindow(BasketItem basketItem)
         {
             InitializeComponent();
-            this.ticket_id = ticket_id;
+            BasketItem = basketItem;
+            name.Text = BasketItem.TicketHolderName;
+            seat.Text = BasketItem.SeatNumber.ToString();
         }
 
 
@@ -44,13 +46,13 @@ namespace ConcertPlatform
             var command = new NpgsqlCommand(updateQuery, connection);
             command.Parameters.AddWithValue("NewSeatNumber", seat.Text);
             command.Parameters.AddWithValue("NewTicketHolderName", name.Text);
-            command.Parameters.AddWithValue("TicketId", ticket_id);
+            command.Parameters.AddWithValue("TicketId", BasketItem.TicketId);
 
             int rowsAffected = command.ExecuteNonQuery();
 
             if (rowsAffected > 0)
             {
-                MessageBox.Show("Seat number and ticket holder name updated successfully for ticket ID: " + ticket_id);
+                MessageBox.Show("Seat number and ticket holder name updated successfully for ticket ID: " + BasketItem.TicketId);
             }
             else
             {

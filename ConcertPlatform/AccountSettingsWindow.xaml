@@ -1,11 +1,12 @@
-﻿<Window x:Class="ConcertPlatform.NameSeatWindow"
+﻿<Window x:Class="ConcertPlatform.AccountSettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConcertPlatform"
         mc:Ignorable="d"
-        Title="NameSeatWindow" Height="220" Width="320">
+        Title="AccountSettingsWindow" Height="220" Width="320">
+   
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
@@ -17,13 +18,13 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Ticket holder name:" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-        <TextBlock Text="Ticket seat:" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+        <TextBlock Text="Username" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+        <TextBlock Text="Password" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
 
-        <TextBox x:Name="name" Grid.Row="0" Grid.Column="1" Height="20" Width="150"/>
-        <TextBox x:Name="seat" Grid.Row="1" Grid.Column="1" Height="20" Width="150" PreviewTextInput="NumberValidationTextBox"/>
+        <TextBox x:Name="name" Grid.Row="0" Grid.Column="1" Height="20" Width="150" Text="{Binding User.Username}"/>
+        <TextBox x:Name="password" Grid.Row="1" Grid.Column="1" Height="20" Width="150" Text="{Binding User.Password}"/>
 
-        <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" VerticalAlignment="center" Height="60" Width="150" Click="UpdateTicket_Click"
+        <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" VerticalAlignment="center" Height="60" Width="150" Click="UpdateUser_Click"
                 Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -39,6 +40,5 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-
     </Grid>
 </Window>

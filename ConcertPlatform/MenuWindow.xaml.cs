@@ -26,7 +26,7 @@ namespace ConcertPlatform
     public partial class MenuWindow : Window
     {
       
-        User user;
+        private User user;
 
         public MenuWindow(User user)
         {
@@ -174,6 +174,12 @@ namespace ConcertPlatform
 
             ArtistVenueWindow artistVenueWindow = new(artistId, venueId);
             artistVenueWindow.Show();
+        }
+
+        private void AccountSettings_Click(object sender, RoutedEventArgs e)
+        {
+            AccountSettingsWindow accountSettingsWindow = new(user);
+            accountSettingsWindow.Show();
         }
     }
 }

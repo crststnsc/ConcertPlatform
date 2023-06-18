@@ -21,7 +21,7 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <Button Margin="70,20" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="60" Width="275" Click="BuyTicket_Click"
+        <Button Margin="20,20" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="60" Width="275" Click="BuyTicket_Click"
                 Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -37,7 +37,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button HorizontalAlignment="Right" Margin="70,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewBasket_Click"
+        <Button HorizontalAlignment="Right" Margin="200,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewBasket_Click"
                 Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -54,12 +54,29 @@
             </Button.Template>
         </Button>
 
-        <Button HorizontalAlignment="Center" Margin="70,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewArtist_Click"
+        <Button HorizontalAlignment="Left" Margin="320,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewArtist_Click"
                 Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="View artist/venue"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="view_basket_button" Property="Background" Value="#4EA6F7"/>
+                            <Setter TargetName="view_basket_button" Property="BorderBrush" Value="#4EA6F7"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Button HorizontalAlignment="Right" Margin="20,20" VerticalAlignment="Bottom" Height="60" Width="150" Click="AccountSettings_Click"
+                Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="view_basket_button" Background="#2C98F0" BorderBrush="#2C98F0" BorderThickness="2" CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="Account settings"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

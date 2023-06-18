@@ -28,7 +28,7 @@
             </Button.Template>
         </Button>
 
-        <Button Margin="285,20" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="60" Width="200" Click="EditName_Button"
+        <Button Margin="50,20" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="60" Width="200" Click="EditName_Button"
                 Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -45,7 +45,7 @@
             </Button.Template>
         </Button>
 
-        <Button Margin="70,20" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="60" Width="200" Click="BuyButton_Click"
+        <Button Margin="20" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Height="60" Width="200" Click="BuyButton_Click"
                 Background="Transparent" BorderThickness="0" FontSize="14" FontWeight="Bold" Foreground="White">
             <Button.Template>
                 <ControlTemplate TargetType="Button">

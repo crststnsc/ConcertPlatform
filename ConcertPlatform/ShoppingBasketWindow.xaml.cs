@@ -120,7 +120,7 @@ namespace ConcertPlatform
         {
             BasketItem basketItem = (BasketItem)basketListBox.SelectedItem;
 
-            NameSeatWindow nameSeatWindow = new (basketItem.TicketId);
+            NameSeatWindow nameSeatWindow = new (basketItem);
             nameSeatWindow.Show();
         }
     }
