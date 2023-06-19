@@ -53,8 +53,16 @@ namespace ConcertPlatform
                     Isadmin = reader.GetBoolean(3)
                 };
                 
-                MenuWindow menuWindow = new(user);
-                menuWindow.Show();
+                if(user.Isadmin)
+                {
+                    AdminWindow adminWindow = new AdminWindow();
+                    adminWindow.Show();
+                }
+                else
+                {
+                    MenuWindow menuWindow = new(user);
+                    menuWindow.Show();
+                }   
                 Close();
             }
             else

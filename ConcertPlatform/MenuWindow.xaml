@@ -28,7 +28,9 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
+        
         <Button Style="{StaticResource UpdateButtonStyle}" Content="Add to basket" Margin="20,20" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Height="60" Width="275" Click="BuyTicket_Click"/>
+        
         <Button Style="{StaticResource UpdateButtonStyle}" Content="View basket" HorizontalAlignment="Right" Margin="200,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewBasket_Click"/>
 
         <Button Style="{StaticResource UpdateButtonStyle}" Content="View artist/venue" HorizontalAlignment="Left" Margin="320,20" VerticalAlignment="Bottom" Height="60" Width="275" Click="ViewArtist_Click"/>

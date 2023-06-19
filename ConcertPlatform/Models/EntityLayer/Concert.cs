@@ -18,10 +18,4 @@ public partial class Concert
     public decimal? TicketPrice { get; set; }
 
     public string? Description { get; set; }
-
-    public virtual Artist? Artist { get; set; }
-
-    public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
-
-    public virtual Venue? Venue { get; set; }
 }
