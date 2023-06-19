@@ -5,21 +5,21 @@ namespace ConcertPlatform.Models.EntityLayer;
 
 public partial class Artist
 {
-    public int ArtistId { get; set; }
+    public int Artist_Id { get; set; }
 
-    public string ArtistName { get; set; } = null!;
+    public string Artist_Name { get; set; } = null!;
 
     public string? Genre { get; set; }
 
     public string? Bio { get; set; }
 
-    public string? ContactInformation { get; set; }
+    public string? Contact_Information { get; set; }
 
     public override string ToString()
     {
-        return $"Name: {ArtistName}\n" +
+        return $"Name: {Artist_Name}\n" +
                $"Genre: {Genre}\n" +
                $"Bio: {Bio}\n" +
-               $"Contact: {ContactInformation}";
+               $"Contact: {Contact_Information}";
     }
 }

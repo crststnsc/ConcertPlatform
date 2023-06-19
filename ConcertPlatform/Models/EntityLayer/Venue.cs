@@ -5,21 +5,21 @@ namespace ConcertPlatform.Models.EntityLayer;
 
 public partial class Venue
 {
-    public int VenueId { get; set; }
+    public int Venue_Id { get; set; }
 
-    public string VenueName { get; set; } = null!;
+    public string Venue_Name { get; set; } = null!;
 
     public string? Location { get; set; }
 
     public int? Capacity { get; set; }
 
-    public string? ContactInformation { get; set; }
+    public string? Contact_Information { get; set; }
 
     public override string ToString()
     {
-        return $"Name: {VenueName}\n" +
+        return $"Name: {Venue_Name}\n" +
                $"Location: {Location}\n" +
                $"Capacity: {Capacity}\n" +
-               $"Contact: {ContactInformation}";
+               $"Contact: {Contact_Information}";
     }
 }

@@ -66,10 +66,10 @@ namespace ConcertPlatform
                 connection.Open();
 
                 // Retrieve the maximum seat number from the referenced venue
-                string getMaxSeatNumberQuery = "SELECT MAX(seat_number) FROM Tickets WHERE concert_id = @ConcertId";
+                string getMaxSeatNumberQuery = "SELECT MAX(seat_number) FROM Tickets WHERE concert_id = @Concert_Id";
                 using (var getMaxSeatNumberCommand = new NpgsqlCommand(getMaxSeatNumberQuery, connection))
                 {
-                    getMaxSeatNumberCommand.Parameters.AddWithValue("ConcertId", concert.ConcertId);
+                    getMaxSeatNumberCommand.Parameters.AddWithValue("Concert_Id", concert.Concert_Id);
                     object maxSeatNumberObj = getMaxSeatNumberCommand.ExecuteScalar();
                     Debug.WriteLine("max seat number :" + maxSeatNumberObj);
 
@@ -84,9 +84,9 @@ namespace ConcertPlatform
                     int nextSeatNumber = maxSeatNumber.HasValue ? maxSeatNumber.Value + 1 : 1;
 
                     // Retrieve the capacity of the venue
-                    string getVenueCapacityQuery = "SELECT capacity FROM Venues WHERE venue_id = @VenueId";
+                    string getVenueCapacityQuery = "SELECT capacity FROM Venues WHERE venue_id = @Venue_Id";
                     var getVenueCapacityCommand = new NpgsqlCommand(getVenueCapacityQuery, connection);
-                    getVenueCapacityCommand.Parameters.AddWithValue("VenueId", concert.VenueId);
+                    getVenueCapacityCommand.Parameters.AddWithValue("Venue_Id", concert.Venue_Id);
                     int venueCapacity = (int)getVenueCapacityCommand.ExecuteScalar();
 
                     // Check if the seat number exceeds the venue capacity
@@ -99,10 +99,10 @@ namespace ConcertPlatform
                     // Insert the new ticket row
                     string insertTicketQuery =
                         "INSERT INTO Tickets (concert_id, seat_number, ticket_holder_name, purchase_date, status)" +
-                        "VALUES (@ConcertId, @SeatNumber, @TicketHolder, @PurchaseDate, @Status)" +
+                        "VALUES (@Concert_Id, @SeatNumber, @TicketHolder, @PurchaseDate, @Status)" +
                         "RETURNING ticket_id";
                     var insertTicketCommand = new NpgsqlCommand(insertTicketQuery, connection);
-                    insertTicketCommand.Parameters.AddWithValue("ConcertId", concert.ConcertId);
+                    insertTicketCommand.Parameters.AddWithValue("Concert_Id", concert.Concert_Id);
                     insertTicketCommand.Parameters.AddWithValue("SeatNumber", nextSeatNumber);
                     insertTicketCommand.Parameters.AddWithValue("TicketHolder", user.Username);
                     insertTicketCommand.Parameters.AddWithValue("PurchaseDate", DateOnly.FromDateTime(DateTime.Now));
@@ -131,12 +131,12 @@ namespace ConcertPlatform
 
             Concert selectedConcert = new Concert
             {
-                ConcertId = (int)selectedRow["concert_id"],
-                ArtistId = (int)selectedRow["artist_id"],
-                VenueId = (int)selectedRow["venue_id"],
+                Concert_Id = (int)selectedRow["concert_id"],
+                Artist_Id = (int)selectedRow["artist_id"],
+                Venue_Id = (int)selectedRow["venue_id"],
                 Date = DateOnly.FromDateTime((DateTime)selectedRow["date"]),
                 Time = TimeOnly.FromTimeSpan((TimeSpan)selectedRow["time"]),
-                TicketPrice = (decimal)selectedRow["ticket_price"],
+                Ticket_Price = (decimal)selectedRow["ticket_price"],
                 Description = (string)selectedRow["description"],
             };
 
