@@ -59,9 +59,16 @@ namespace ConcertPlatform
             table = Table.Concerts;
         }
 
-        private ObservableCollection<Artist> GetArtistsFromDatabase()
+        private void PurchasedTicketsButton_Click(object sender, RoutedEventArgs e)
         {
-            ObservableCollection<Artist> artists = new ();
+            ObservableCollection<Purchase> purchasedTickets = GetPurchasedTicketsFromDatabase();
+            dataGrid.ItemsSource = purchasedTickets;
+        }
+
+
+        public static ObservableCollection<Artist> GetArtistsFromDatabase()
+        {
+            ObservableCollection<Artist> artists = new();
 
             using (var connection = DALHelper.Connection)
             {
@@ -92,9 +99,9 @@ namespace ConcertPlatform
 
             return artists;
         }
-        private ObservableCollection<Venue> GetVenuesFromDatabase()
+        public static ObservableCollection<Venue> GetVenuesFromDatabase()
         {
-            ObservableCollection<Venue> venues = new ();
+            ObservableCollection<Venue> venues = new();
 
             using (var connection = DALHelper.Connection)
             {
@@ -125,15 +132,49 @@ namespace ConcertPlatform
 
             return venues;
         }
-        private ObservableCollection<Concert> GetConcertsFromDatabase()
+        public static ObservableCollection<Concert> GetConcertsFromDatabase()
         {
-            ObservableCollection<Concert> concerts = new ();
+            ObservableCollection<Concert> concerts = new();
+
+            using var connection = DALHelper.Connection;
+            connection.Open();
+
+            string query = "SELECT * FROM Concerts";
+
+            using (var command = new NpgsqlCommand(query, connection))
+            {
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Concert concert = new Concert
+                        {
+                            Concert_Id = reader.GetInt32(0),
+                            Artist_Id = reader.GetInt32(1),
+                            Venue_Id = reader.GetInt32(2),
+                            Date = DateOnly.FromDateTime(reader.GetDateTime(3)),
+                            Time = TimeOnly.FromTimeSpan(reader.GetTimeSpan(4)),
+                            Ticket_Price = reader.GetDecimal(5),
+                            Description = reader.GetString(6),
+                        };
+
+                        concerts.Add(concert);
+                    }
+                }
+            }
+
+
+            return concerts;
+        }
+        private ObservableCollection<Purchase> GetPurchasedTicketsFromDatabase()
+        {
+            ObservableCollection<Purchase> purchasedTickets = new();
 
             using (var connection = DALHelper.Connection)
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Concerts";
+                string query = "SELECT * FROM purchases";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
@@ -141,24 +182,84 @@ namespace ConcertPlatform
                     {
                         while (reader.Read())
                         {
-                            Concert concert = new Concert
+                            Purchase purchasedTicket = new()
                             {
-                                Concert_Id = reader.GetInt32(0),
-                                Artist_Id = reader.GetInt32(1),
-                                Venue_Id = reader.GetInt32(2),
-                                Date = DateOnly.FromDateTime(reader.GetDateTime(3)),
-                                Time = TimeOnly.FromTimeSpan(reader.GetTimeSpan(4)),
-                                Ticket_Price = reader.GetDecimal(5),
-                                Description = reader.GetString(6),
+                                UserId = reader.GetInt32(0),
+                                TicketId = reader.GetInt32(1),
                             };
 
-                            concerts.Add(concert);
+                            purchasedTickets.Add(purchasedTicket);
                         }
                     }
                 }
             }
 
-            return concerts;
+            return purchasedTickets;
+        }
+
+        private void DeleteRecordFromDatabase(int id, string tableName, string primaryKeyColumn)
+        {
+            using var connection = DALHelper.Connection;
+            connection.Open();
+
+            string query = $"DELETE FROM {tableName} WHERE {primaryKeyColumn} = @Id";
+
+            using var command = new NpgsqlCommand(query, connection);
+            command.Parameters.AddWithValue("Id", id);
+
+            var rowsAffected = command.ExecuteNonQuery();
+            if (rowsAffected == 0)
+            {
+                MessageBox.Show("Error deleting record.");
+                return;
+            }
+            MessageBox.Show("Record deleted successfully.");
+        }
+
+        private void RefreshDataGrid()
+        {
+            switch (table)
+            {
+                case Table.Artists:
+                    ArtistsButton_Click(null, null);
+                    break;
+                case Table.Venues:
+                    VenuesButton_Click(null, null);
+                    break;
+                case Table.Concerts:
+                    ConcertsButton_Click(null, null);
+                    break;
+                    // Handle other cases if needed
+            }
+        }
+
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = dataGrid.SelectedItem;
+
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Please select a record to delete.");
+                return;
+            }
+
+            switch (table)
+            {
+                case Table.Artists:
+                    DeleteRecordFromDatabase((selectedItem as Artist).Artist_Id, "Artists", "artist_id");
+                    break;
+                case Table.Venues:
+                    DeleteRecordFromDatabase((selectedItem as Venue).Venue_Id, "Venues", "venue_id");
+                    break;
+                case Table.Concerts:
+                    DeleteRecordFromDatabase((selectedItem as Concert).Concert_Id, "Concerts", "concert_id");
+                    break;
+                    // Handle other cases if needed
+            }
+
+            // Refresh the data grid
+            RefreshDataGrid();
         }
 
         private void UpdateTable_Click(object sender, RoutedEventArgs e)
@@ -181,31 +282,36 @@ namespace ConcertPlatform
 
         private void UpdateRecordInDatabase<T>(T record, string tableName, string primaryKeyColumn)
         {
-            using (var connection = DALHelper.Connection)
+            using var connection = DALHelper.Connection;
+            connection.Open();
+
+            var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var updateColumns = properties.Select(p => p.Name + " = @" + p.Name);
+
+            string query = $"UPDATE {tableName} SET {string.Join(", ", updateColumns)} WHERE {primaryKeyColumn} = @{primaryKeyColumn}";
+
+            using (var command = new NpgsqlCommand(query, connection))
             {
-                connection.Open();
-
-                var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                var updateColumns = properties.Select(p => p.Name + " = @" + p.Name);
-
-                string query = $"UPDATE {tableName} SET {string.Join(", ", updateColumns)} WHERE {primaryKeyColumn} = @{primaryKeyColumn}";
-
-                using (var command = new NpgsqlCommand(query, connection))
+                foreach (var property in properties)
                 {
-                    foreach (var property in properties)
-                    {
-                        command.Parameters.AddWithValue(property.Name, property.GetValue(record));
-                    }
-
-                    var rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected == 0)
-                    {
-                        MessageBox.Show("Error updating table");
-                        return;
-                    }
-                    MessageBox.Show("Updated successfully");
+                    command.Parameters.AddWithValue(property.Name, property.GetValue(record));
                 }
+
+                var rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    MessageBox.Show("Error updating table");
+                    return;
+                }
+                MessageBox.Show("Updated successfully");
             }
         }
+
+        private void AddRecordButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddWindow addRecordWindow = new();
+            addRecordWindow.ShowDialog();
+        }
+
     }
 }

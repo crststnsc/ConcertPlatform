@@ -1,0 +1,86 @@
+﻿<Window x:Class="ConcertPlatform.AddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConcertPlatform"
+        mc:Ignorable="d"
+        Title="AddWindow" Height="500" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <TabControl>
+            <TabItem Header="Add Artist">
+                <StackPanel Margin="20">
+                    <TextBlock Text="Artist Name:"/>
+                    <TextBox x:Name="artistNameTextBox" Width="300" Margin="0 5"/>
+
+                    <TextBlock Text="Genre:"/>
+                    <TextBox x:Name="genreTextBox" Width="300" Margin="0 5"/>
+
+                    <TextBlock Text="Bio:"/>
+                    <TextBox x:Name="bioTextBox" Width="300" Height="100" Margin="0 5"/>
+
+                    <TextBlock Text="Contact Information:"/>
+                    <TextBox x:Name="contactInfoTextBox" Width="300" Margin="0 5"/>
+
+                    <Button Style="{StaticResource UpdateButtonStyle}" Content="Add Artist" Margin="0 20" Click="AddArtistButton_Click"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Add Venue">
+                <StackPanel Margin="20">
+                    <TextBlock Text="Venue Name:"/>
+                    <TextBox x:Name="venueNameTextBox" Width="300" Margin="0 5"/>
+
+                    <TextBlock Text="Location:"/>
+                    <TextBox x:Name="locationTextBox" Width="300" Margin="0 5"/>
+
+                    <TextBlock Text="Capacity:"/>
+                    <TextBox x:Name="capacityTextBox" Width="300" Margin="0 5"/>
+
+                    <TextBlock Text="Contact Information:"/>
+                    <TextBox x:Name="venueContactInfoTextBox" Width="300" Margin="0 5"/>
+
+                    <Button Style="{StaticResource UpdateButtonStyle}" Content="Add Venue" Margin="0 20" Click="AddVenueButton_Click"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Add Concert">
+                <StackPanel Margin="20">
+                    <TextBlock Text="Artist:"/>
+                    <ComboBox x:Name="artistComboBox" Width="300"/>
+
+                    <TextBlock Text="Venue:"/>
+                    <ComboBox x:Name="venueComboBox" Width="300"/>
+
+                    <TextBlock Text="Date:"/>
+                    <DatePicker x:Name="datePicker" Width="150"/>
+
+                    <TextBlock Text="Time:"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ComboBox x:Name="hourComboBox" Width="60" />
+                        <TextBlock Text=":" Margin="5"/>
+                        <ComboBox x:Name="minuteComboBox" Width="60" />
+                    </StackPanel>
+
+                    <TextBlock Text="Ticket Price:"/>
+                    <TextBox x:Name="ticketPriceTextBox" Width="150" />
+
+                    <TextBlock Text="Description:"/>
+                    <TextBox x:Name="descriptionTextBox" Width="300" Height="100" />
+
+                    <Button Style="{StaticResource UpdateButtonStyle}" Content="Add Concert" Click="AddConcertButton_Click" Margin="5" Height="40"/>
+                </StackPanel>
+            </TabItem>
+
+
+        </TabControl>
+    </Grid>
+</Window>
